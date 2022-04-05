@@ -1,0 +1,19 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "stamps",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "display",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "order",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
