@@ -1,0 +1,126 @@
+簡易仕様書
+
+＊APIキー等を含むファイルについては，gitから除外しています．
+
+-アプリ名
+まんなか佐賀　ぐるっとスタンプラリー
+（参加者用：stamprally2-nuxt，管理者用：stamprally2-console）
+
+・対象OS及びブラウザ
+Android 12
+-Chrome（95 .0.4638.50）
+iOS 15
+-Chrome（95 .0.4638.50）
+-Safari（15）
+
+・開発環境/言語
+HTML，JavaScript，CSS，Vue CLI，Firebase，Google Maps Platform
+
+・機能要件
+参加者用ページ
+-Cookieによるユーザー登録機能
+-GPS，Google Mapによる現在地表示
+-関連したイベントの表示
+-QRコード読み取りによるスタンプ取得
+-GPSによるスタンプ取得
+-スタンプの一覧表示
+-スタンプ取得個数に応じた景品応募
+
+管理者用ページ
+-総ユーザー数の表示
+-アクティブユーザー（過去24時間以内にログイン）の表示
+-年代別のユーザーの割合表示
+-市町別のユーザーの割合表示
+-日付別新規ユーザー数の表示
+-景品応募者リストの表示・ダウンロード
+-スタンプポイントの作成・編集
+-関連イベント情報の作成・編集
+-参加者の位置情報ログの確認
+
+・フレームワーク
+-Nuxt.js 2.15.8
+-Bootstrap 4.6.0
+
+・テーブル定義
+-users
+　∟[clientId]
+　　∟clientId: String
+　　∟age: String
+　　∟applied: Number
+　　∟color: String
+　　∟joinDate: TimeStamp
+　　∟location: Map
+　　　∟lat: Number
+　　　∟lng: Number
+　　∟login: TimeStamp
+　　∟name: String
+　　∟region: String
+　　∟ownedStamps: Array
+　　　∟String(StampId)
+　　∟stGetDate: Array
+　　　∟Timestamp
+
+-stamps
+　∟[id]
+　　∟id: String
+　　∟area: String
+　　∟color: String
+　　∟course: String(courseId)
+　　∟description: String
+　　∟display: Number
+　　∟image: String
+　　∟location: Geopoint
+　　∟name: String
+　　∟radius: Number
+　　∟thumbnail: String
+　　∟type: String
+
+・course
+　∟[id]
+　　∟id: String
+　　∟close: Timestamp
+　　∟open: Timestamp
+　　∟color: String
+　　∟joinDate: TimeStamp
+　　∟path: Array
+　　　∟Geopoint
+　　∟stamps: Array
+　　　∟String(stampId)
+
+・appliedUsers
+　∟[clientId]
+　　∟address: String
+　　∟age: String
+　　∟applyDate: Timestamp
+　　∟companion: String
+　　∟course: String
+　　∟comment: Array
+　　　∟String
+　　∟mail: String
+　　∟phone: String
+　　∟name: String
+　　∟prize: String
+　　∟events: Array
+　　　∟String
+　　∟sex: String
+　　∟zipcode: String
+
+・adminUser
+　∟[uid]
+　　∟uid: String
+　　∟color: String
+　　∟name: String
+
+・コンセプト
+重要視したポイントとしては，「誰でも気軽に参加できる」，「見やすく，使いやすいデザイン」です．企画を行った佐賀県広域圏観光等推進委員会の方々と打ち合わせをしながら開発を進め，様々な年代の方に使ってもらえるようなシステムを目指しました．
+
+・こだわったポイント
+参加者用ページにおいては，SPAを導入することで，ページ切り替え時の読み込み時間を抑え，データの通信回数も抑えられるよう工夫しました．管理者用ページでは，属性別のユーザー情報などを表示することで，状況を把握しやすくしたり，管理者が直節スタンプの位置や情報を編集できるようにすることで，より効率的に運用ができるよう工夫しました．
+
+・デザイン面でこだわったポイント
+全体のデザインとしては，白を基調にシンプルなデザインを心がけました．
+参加者用ページでは，ユーザーの現在地とスタンプのある地点をマップ上に表示することで，直感的に近くのスタンプや取得状況を把握しやすいようにしました．
+管理者用ページでは，参加ユーザーの情報をグラフで表現することで，パッと見て分かるように工夫しました．
+
+・自己評価
+デザイン，全体的な機能については，おおむね想像通りのものができたのかなと思っています．しかしデザインについてはちゃんと勉強をしたわけではないので，これがデザインとして正解なのかと言われると自信はありません．問題があった部分としては，ユーザー登録にGoogle Analyticsが生成した識別用のIDをブラウザのCookieに保存して行う方法を使って，ユーザー登録の手間を減らすようにしたのですが，Cookieの設定などについては端末やブラウザに依存してしまう部分が大きく，あまり安定感のある方法ではないのかなと思いました．スタンプラリーについては今後も企画の話が来ており，このシステムも改良を進めているので，ユーザー登録についても従来のメールやアカウントでの認証といった確実な方法に変更するのが良いのかなと思いました．今回の出来や関係者からのフィードバックを次の機会に活かせたらと思います．
